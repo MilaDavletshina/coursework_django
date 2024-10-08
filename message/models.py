@@ -36,13 +36,14 @@ class Mail(models.Model):
     STATUS_LAUNCHED = 'launched'
 
     STATUS_CHOICES = [
-        (STATUS_COMPETED, 'строка: Завершена'),
-        (STATUS_CREATED, 'строка: Создана'),
-        (STATUS_LAUNCHED, 'строка: Запущена'),
+        (STATUS_COMPETED, 'статус: Завершен'),
+        (STATUS_CREATED, 'статус: Создан'),
+        (STATUS_LAUNCHED, 'статус: Запущен'),
     ]
+
     first_dispatch = models.DateTimeField(auto_now_add=True, verbose_name='Дата первой отправки') # Дата и время первой отправки
     end_sending = models.DateTimeField(auto_now_add=True, verbose_name='Дата окончания отправки') # Дата и время окончания отправки
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_COMPETED, verbose_name='Статус строки') # Статус (строка: 'Завершена', 'Создана', 'Запущена')
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_COMPETED, verbose_name='Статус рассылки') # Статус
     sms = models.ForeignKey(Sms, on_delete=models.CASCADE, related_name='mail', verbose_name='Сообщение') # Сообщение (внешний ключ на модель «Сообщение»)
     client = models.ManyToManyField(Client, verbose_name='Получатель') # Получатели («многие ко многим», связь с моделью «Получатель»)
 
@@ -53,3 +54,27 @@ class Mail(models.Model):
         verbose_name = 'Рассылка'
         verbose_name_plural = 'Рассылки'
         ordering = ['status',]
+
+
+class Send(models.Model):
+    """Попытка рассылки"""
+    STATUS_OK = 'ok'
+    STATUS_NOK = 'not ok'
+
+    STATUS_CHOICES = [
+        (STATUS_OK, 'статус: Успешно'),
+        (STATUS_NOK, 'статус: Не успешно'),
+    ]
+
+    data = models.DateTimeField(auto_now_add=True, verbose_name='Дата попытки рассылки') # Дата и время попытки
+    sending_status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_OK, verbose_name='Статус попытки рассылки')  #Статус
+    answer = models.TextField(null=True, blank=True, verbose_name='Ответ почтового сервера')
+    status = models.ForeignKey(Mail, on_delete=models.CASCADE, related_name='send', verbose_name='Рассылка')  # внешний ключ на модель «Рассылка»
+
+    def __str__(self):
+        return self.sending_status
+
+    class Meta:
+        verbose_name = 'Попытка рассылки'
+        verbose_name_plural = 'Попытка рассылок'
+        ordering = ['sending_status',]
