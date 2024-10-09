@@ -7,7 +7,9 @@ from message.views import (
     ClientUpdateView,
     ClientDeleteView,
     SmsListView,
-    SmsDetailView
+    SmsDetailView,
+    SmsCreateView,
+    SmsUpdateView
 )
 
 
@@ -21,5 +23,7 @@ urlpatterns = [
     path("client/<int:pk>/update/", ClientUpdateView.as_view(), name="client_update"),
     path("client/<int:pk>/delete/", ClientDeleteView.as_view(), name="client_delete"),
     path("sms/list/", SmsListView.as_view(), name="sms_list"),
-    path("sms/<int:pk>/", SmsDetailView.as_view(), name="sms_detail")
+    path("sms/<int:pk>/", SmsDetailView.as_view(), name="sms_detail"),
+    path("sms/create/", SmsCreateView.as_view(), name="sms_create"),
+    path("sms/<int:pk>/update/", SmsUpdateView.as_view(), name="sms_update"),
 ]

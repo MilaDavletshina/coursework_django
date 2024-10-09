@@ -42,3 +42,15 @@ class SmsListView(ListView):
 
 class SmsDetailView(DetailView):
     model = Sms
+
+
+class SmsCreateView(CreateView):
+    model = Sms
+    fields = ("topic", "content")
+    success_url = reverse_lazy("message:sms_list")
+
+
+class SmsUpdateView(UpdateView):
+    model = Sms
+    fields = ("topic", "content")
+    success_url = reverse_lazy("message:sms_list")
