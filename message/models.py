@@ -43,7 +43,7 @@ class Mail(models.Model):
 
     first_dispatch = models.DateTimeField(auto_now_add=True, verbose_name='Дата первой отправки') # Дата и время первой отправки
     end_sending = models.DateTimeField(auto_now_add=True, verbose_name='Дата окончания отправки') # Дата и время окончания отправки
-    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_COMPETED, verbose_name='Статус рассылки') # Статус
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_LAUNCHED, verbose_name='Статус рассылки') # Статус
     sms = models.ForeignKey(Sms, on_delete=models.CASCADE, related_name='mail', verbose_name='Сообщение') # Сообщение (внешний ключ на модель «Сообщение»)
     client = models.ManyToManyField(Client, verbose_name='Получатель') # Получатели («многие ко многим», связь с моделью «Получатель»)
 
@@ -75,6 +75,6 @@ class Send(models.Model):
         return self.sending_status
 
     class Meta:
-        verbose_name = 'Попытка рассылки'
-        verbose_name_plural = 'Попытка рассылок'
+        verbose_name = 'Управление рассылкой'
+        verbose_name_plural = 'Управление рассылками'
         ordering = ['sending_status',]
