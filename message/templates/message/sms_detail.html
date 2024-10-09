@@ -3,19 +3,18 @@
 {% block content %}
 <main class="flex-shrink-0">
   <div class="container">
-    <h1 class="mt-5">Получатель рассылки</h1>
+    <h1 class="mt-5">Сообщение</h1>
     <p class="lead"></p>
     <div class="row mb-2">
     <div class="col-md-12">
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Электронная почта: {{client.email}}</strong>
-          <strong class="d-inline-block mb-2 text-primary-emphasis">ФИО: {{client.name}}</strong>
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Комментарии: {{client.comment}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Тема сообщения: {{sms.topic}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Содержание: {{sms.content}}</strong>
         </div>
         <div class="row mb-2">
         <div class="col-md-12">
-          <a class="btn btn-dark" href="{% url 'message:client_list' %}" role="button">Назад</a>
+          <a class="btn btn-dark" href="{% url 'message:sms_list' %}" role="button">Назад</a>
         </div>
         </div>
       </div>
