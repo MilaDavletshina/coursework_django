@@ -1,0 +1,32 @@
+{% extends 'message/base.html' %}
+
+{% block content %}
+<main class="flex-shrink-0">
+  <div class="container">
+    <h1 class="mt-5">Управление сообщениями</h1>
+    <p class="lead">Вы можете добавлять, просматривать, редактировать и удалять сообщения</p>
+    <div class="container">
+    <li class="nav-item">
+      <a class="btn btn-dark" href="{% url 'message:client_create' %}" role="button">Создать получателя</a>
+    </li>
+    </div>
+    <div class="row mb-2">
+    <div class="col-md-12">
+      {% for sms in object_list %}
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Тема сообщения: {{sms.topic}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Содержание: {{sms.content}}</strong>
+        </div>
+        <div class="row mb-2">
+        <div class="col-md-12">
+          <a class="btn btn-dark" href="{% url 'message:client_detail' client.pk %}" role="button">Посмотреть</a>
+        </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+</main>
+{% endblock %}

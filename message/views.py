@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from message.models import Client
+from message.models import Client, Sms
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 
@@ -34,3 +34,11 @@ class ClientUpdateView(UpdateView):
 class ClientDeleteView(DeleteView):
     model = Client
     success_url = reverse_lazy("message:client_list")
+
+
+class SmsListView(ListView):
+    model = Sms
+
+
+class SmsDetailView(DetailView):
+    model = Sms

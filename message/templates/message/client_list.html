@@ -5,6 +5,11 @@
   <div class="container">
     <h1 class="mt-5">Управление клиентами</h1>
     <p class="lead">Вы можете добавлять, просматривать, редактировать и удалять получателей рассылки (клиентов)</p>
+    <div class="container">
+    <li class="nav-item">
+      <a class="btn btn-dark" href="{% url 'message:client_create' %}" role="button">Создать получателя</a>
+    </li>
+    </div>
     <div class="row mb-2">
     <div class="col-md-12">
       {% for client in object_list %}
