@@ -10,7 +10,12 @@ from message.views import (
     SmsDetailView,
     SmsCreateView,
     SmsUpdateView,
-    SmsDeleteView
+    SmsDeleteView,
+    MailListView,
+    MailDetailView,
+    MailCreateView,
+    MailUpdateView,
+    MailDeleteView
 )
 
 
@@ -27,5 +32,10 @@ urlpatterns = [
     path("sms/<int:pk>/", SmsDetailView.as_view(), name="sms_detail"),
     path("sms/create/", SmsCreateView.as_view(), name="sms_create"),
     path("sms/<int:pk>/update/", SmsUpdateView.as_view(), name="sms_update"),
-    path("sms/<int:pk>/delete/", SmsDeleteView.as_view(), name="sms_delete")
+    path("sms/<int:pk>/delete/", SmsDeleteView.as_view(), name="sms_delete"),
+    path("mail/list/", MailListView.as_view(), name="mail_list"),
+    path("mail/<int:pk>/", MailDetailView.as_view(), name="mail_detail"),
+    path("mail/create/", MailCreateView.as_view(), name="mail_create"),
+    path("mail/<int:pk>/update/", MailUpdateView.as_view(), name="mail_update"),
+    path("mail/<int:pk>/delete/", MailDeleteView.as_view(), name="mail_delete")
 ]

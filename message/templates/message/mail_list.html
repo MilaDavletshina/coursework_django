@@ -1,0 +1,37 @@
+{% extends 'message/base.html' %}
+
+{% block content %}
+<main class="flex-shrink-0">
+  <div class="container">
+    <h1 class="mt-5">Рассылка</h1>
+    <p class="lead">Вы можете добавлять, просматривать, редактировать и удалять рассылку</p>
+    <div class="container">
+    <li class="nav-item">
+      <a class="btn btn-dark" href="{% url 'message:mail_create' %}" role="button">Создать рассылку</a>
+    </li>
+    </div>
+    <div class="row mb-2">
+    <div class="col-md-12">
+      {% for mail in object_list %}
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Дата первой отправки: {{mail.first_dispatch}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Дата окончания отправки: {{mail.end_sending}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Статус рассылки: {{mail.status}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Сообщение: {{mail.sms}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Получатель: {{client.name}}</strong>
+        </div>
+        <div class="row mb-2">
+        <div class="col-md-12">
+          <a class="btn btn-dark" href="{% url 'message:mail_detail' mail.pk %}" role="button">Посмотреть</a>
+          <a class="btn btn-dark" href="{% url 'message:mail_update' mail.pk %}" role="button">Редактировать</a>
+          <a class="btn btn-dark" href="{% url 'message:mail_delete' mail.pk %}" role="button">Удалить</a>
+        </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    </div>
+  </div>
+</main>
+{% endblock %}
