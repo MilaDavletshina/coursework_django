@@ -1,0 +1,33 @@
+{% extends 'message/base.html' %}
+
+{% block content %}
+<main class="flex-shrink-0">
+  <div class="container">
+    <h1 class="mt-5">Главная страница</h1>
+    <p class="lead"></p>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Количество рассылок: {{mail_count}}</strong>
+        </div>
+      </div>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Количество активных рассылок: {{active_count}}</strong>
+        </div>
+      </div>
+  </div>
+  <div class="row mb-2">
+    <div class="col-md-12">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Количество уникальных получателей: {{unique_email}}</strong>
+        </div>
+      </div>
+  </div>
+</main>
+{% endblock %}

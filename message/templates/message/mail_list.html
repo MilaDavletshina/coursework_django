@@ -3,7 +3,7 @@
 {% block content %}
 <main class="flex-shrink-0">
   <div class="container">
-    <h1 class="mt-5">Рассылка</h1>
+    <h1 class="mt-5">Управление рассылкой</h1>
     <p class="lead">Вы можете добавлять, просматривать, редактировать и удалять рассылку</p>
     <div class="container">
     <li class="nav-item">
@@ -19,7 +19,7 @@
           <strong class="d-inline-block mb-2 text-primary-emphasis">Дата окончания отправки: {{mail.end_sending}}</strong>
           <strong class="d-inline-block mb-2 text-primary-emphasis">Статус рассылки: {{mail.status}}</strong>
           <strong class="d-inline-block mb-2 text-primary-emphasis">Сообщение: {{mail.sms}}</strong>
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Получатель: {{client.name}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Получатель: {{mail.client}}</strong>
         </div>
         <div class="row mb-2">
         <div class="col-md-12">

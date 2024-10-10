@@ -2,11 +2,25 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 
 from message.models import Client, Sms, Mail
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 
 def base(request):
     return render(request, "base.html")
+
+
+class MainView(TemplateView):
+    template_name = 'message/main.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['mail_count'] = len(Mail.objects.all())
+        context['active_count'] = len(Mail.objects.filter(status='launched'))
+        context['unique_email'] = len(Client.objects.all())
+        return context
+
+
+
 
 
 class ClientListView(ListView):
