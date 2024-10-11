@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
@@ -9,6 +10,22 @@ def base(request):
     return render(request, "base.html")
 
 
+class Contacts(TemplateView):
+    template_name = "message/contacts.html"
+
+    def contacts(request):
+        if request.method == 'POST':
+            name = request.POST.get('name')  # получаем имя
+            message = request.POST.get('message')  # получаем сообщение
+
+            return HttpResponse(f"Спасибо, {name}! Сообщение получено.")
+        return render(request, 'message/contacts.html')
+
+
+class Message(TemplateView):
+    template_name = "message/message.html"
+
+
 class MainView(TemplateView):
     template_name = 'message/main.html'
 
@@ -18,9 +35,6 @@ class MainView(TemplateView):
         context['active_count'] = len(Mail.objects.filter(status='Запущен'))
         context['unique_email'] = len(Client.objects.all())
         return context
-
-
-
 
 
 class ClientListView(ListView):
@@ -81,6 +95,14 @@ class MailListView(ListView):
 
 class MailDetailView(DetailView):
     model = Mail
+
+    def mail_send(request):
+        if request.method == 'POST':
+            name = request.POST.get('client')  # получаем имя
+            message = request.POST.get('sms')  # получаем сообщение
+
+            return HttpResponse(f"Спасибо, {client}!  Рассылка создана.")
+        return render(request, 'message/mail_list.html')
 
 
 class MailCreateView(CreateView):

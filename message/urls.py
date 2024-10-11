@@ -16,7 +16,9 @@ from message.views import (
     MailCreateView,
     MailUpdateView,
     MailDeleteView,
-    MainView
+    MainView,
+    Contacts,
+    Message
 )
 
 
@@ -25,6 +27,8 @@ app_name = MessageConfig.name
 urlpatterns = [
     # path('', base, name='base.html'),
     path('', MainView.as_view(), name="main"),
+    path("contacts/", Contacts.as_view(), name="contacts"),
+    path("message/", Message.as_view(), name="message"),
 
     path("client/", ClientListView.as_view(), name="client_list"),
     path("client/<int:pk>/", ClientDetailView.as_view(), name="client_detail"),
