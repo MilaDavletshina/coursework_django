@@ -15,7 +15,7 @@ class MainView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['mail_count'] = len(Mail.objects.all())
-        context['active_count'] = len(Mail.objects.filter(status='launched'))
+        context['active_count'] = len(Mail.objects.filter(status='Запущен'))
         context['unique_email'] = len(Client.objects.all())
         return context
 

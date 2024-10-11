@@ -31,9 +31,9 @@ class Sms(models.Model):
 
 class Mail(models.Model):
     """Рассылка"""
-    STATUS_COMPETED = 'completed'
-    STATUS_CREATED = 'created'
-    STATUS_LAUNCHED = 'launched'
+    STATUS_COMPETED = 'Завершен'
+    STATUS_CREATED = 'Создан'
+    STATUS_LAUNCHED = 'Запущен'
 
     STATUS_CHOICES = [
         (STATUS_COMPETED, 'статус: Завершен'),
