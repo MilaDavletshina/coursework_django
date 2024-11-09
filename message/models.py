@@ -58,8 +58,8 @@ class Mail(models.Model):
 
 class Send(models.Model):
     """Попытка рассылки"""
-    STATUS_OK = 'ok'
-    STATUS_NOK = 'not ok'
+    STATUS_OK = 'Успешно'
+    STATUS_NOK = 'Не успешно'
 
     STATUS_CHOICES = [
         (STATUS_OK, 'статус: Успешно'),
@@ -67,7 +67,7 @@ class Send(models.Model):
     ]
 
     data = models.DateTimeField(auto_now_add=True, verbose_name='Дата попытки рассылки') # Дата и время попытки
-    sending_status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_OK, verbose_name='Статус попытки рассылки')  #Статус
+    sending_status = models.CharField(max_length=10, choices=STATUS_CHOICES, default=STATUS_OK, verbose_name='Статус попытки рассылки')
     answer = models.TextField(null=True, blank=True, verbose_name='Ответ почтового сервера')
     status = models.ForeignKey(Mail, on_delete=models.CASCADE, related_name='send', verbose_name='Рассылка')  # внешний ключ на модель «Рассылка»
 

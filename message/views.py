@@ -1,8 +1,11 @@
+from datetime import timezone
+
+from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from message.models import Client, Sms, Mail
+from message.models import Client, Sms, Mail, Send
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 
@@ -96,14 +99,6 @@ class MailListView(ListView):
 class MailDetailView(DetailView):
     model = Mail
 
-    def mail_send(request):
-        if request.method == 'POST':
-            name = request.POST.get('client')  # получаем имя
-            message = request.POST.get('sms')  # получаем сообщение
-
-            return HttpResponse(f"Спасибо, {client}!  Рассылка создана.")
-        return render(request, 'message/mail_list.html')
-
 
 class MailCreateView(CreateView):
     model = Mail
@@ -120,3 +115,32 @@ class MailUpdateView(UpdateView):
 class MailDeleteView(DeleteView):
     model = Mail
     success_url = reverse_lazy("message:mail_list")
+
+
+def send_mail(mail):
+    """Функция отправки сообщений по требованию"""
+    clients = mail.client.all()
+    for client in clients:
+        try:
+            response = send_mail(
+                mail.message.subject,
+                mail.message.body,
+                'from@example.com',
+                [client.email],
+            )
+            status = 'Успешно'
+        except Exception as e:
+            response = str(e)
+            status = 'Не успешно'
+
+        Send.objects.create(
+            mail=mail,
+            status=status,
+            answer=response
+        )
+
+    # Обновление статуса рассылки
+    if status == 'Успешно':
+        mail.status = 'Запущен'
+        mail.first_dispatch = timezone.now()
+        mail.save()

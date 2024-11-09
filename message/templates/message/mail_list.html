@@ -21,6 +21,7 @@
           <strong class="d-inline-block mb-2 text-primary-emphasis">Сообщение: {{mail.sms}}</strong>
           <strong class="d-inline-block mb-2 text-primary-emphasis">Получатель: {{mail.client}}</strong>
         </div>
+      </div>
         <div class="row mb-2">
         <div class="col-md-12">
           <a class="btn btn-dark" href="{% url 'message:mail_detail' mail.pk %}" role="button">Посмотреть</a>
@@ -28,7 +29,6 @@
           <a class="btn btn-dark" href="{% url 'message:mail_delete' mail.pk %}" role="button">Удалить</a>
         </div>
         </div>
-      </div>
       {% endfor %}
     </div>
     </div>
