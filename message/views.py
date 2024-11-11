@@ -5,15 +5,18 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
+from message.forms import ClientForm, SmsForm, MailForm
 from message.models import Client, Sms, Mail, Send
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
 
 def base(request):
+    """Основной шаблон"""
     return render(request, "base.html")
 
 
 class Contacts(TemplateView):
+    """Шаблон контакты"""
     template_name = "message/contacts.html"
 
     def contacts(request):
@@ -26,10 +29,12 @@ class Contacts(TemplateView):
 
 
 class Message(TemplateView):
+    """Страница ответа на отправленное сообщение"""
     template_name = "message/message.html"
 
 
 class MainView(TemplateView):
+    """Главная страница"""
     template_name = 'message/main.html'
 
     def get_context_data(self, **kwargs):
@@ -41,78 +46,99 @@ class MainView(TemplateView):
 
 
 class ClientListView(ListView):
+    """Получатели рассылок - просмотр"""
     model = Client
 
 # app_name/<model_name>_<action> т.е будет message/client_list.html
 
 
 class ClientDetailView(DetailView):
+    """Получатель рассылки"""
     model = Client
 
 
 class ClientCreateView(CreateView):
+    """Получатель рассылки - создание"""
     model = Client
-    fields = ("email", "name", "comment")
+    form_class = ClientForm
     success_url = reverse_lazy("message:client_list")
+
+    def form_valid(self, form):
+        self.object = form.save()
+
+        return super().form_valid(form)
+
 
 
 class ClientUpdateView(UpdateView):
+    """Получатель рассылки - обновление"""
     model = Client
-    fields = ("email", "name", "comment")
+    form_class = ClientForm
     success_url = reverse_lazy("message:client_list")
 
 
 class ClientDeleteView(DeleteView):
+    """Получатель рассылки - удаление"""
     model = Client
     success_url = reverse_lazy("message:client_list")
 
 
 class SmsListView(ListView):
+    """Сообщения - просмотр"""
     model = Sms
 
 
 class SmsDetailView(DetailView):
+    """Просмотр выбранного сообщения"""
     model = Sms
 
 
 class SmsCreateView(CreateView):
+    """Сообщения - создание"""
     model = Sms
-    fields = ("topic", "content")
+    form_class = SmsForm
     success_url = reverse_lazy("message:sms_list")
 
 
 class SmsUpdateView(UpdateView):
+    """Сообщения - обновление"""
     model = Sms
-    fields = ("topic", "content")
+    form_class = SmsForm
     success_url = reverse_lazy("message:sms_list")
 
 
 class SmsDeleteView(DeleteView):
+    """Сообщения - удаление"""
     model = Sms
     success_url = reverse_lazy("message:sms_list")
 
 
 class MailListView(ListView):
+    """Рассылка - просмотр"""
     model = Mail
 
 
 class MailDetailView(DetailView):
+    """Просмотр выбранной рассылки"""
     model = Mail
 
 
 class MailCreateView(CreateView):
+    """Рассылка - создание"""
     model = Mail
-    fields = ("status", "sms", "client")
+    form_class = MailForm
     success_url = reverse_lazy("message:mail_list")
 
 
 class MailUpdateView(UpdateView):
+    """Рассылка - обновление"""
     model = Mail
-    fields = ("status", "sms", "client")
+    form_class = MailForm
     success_url = reverse_lazy("message:mail_list")
 
 
 class MailDeleteView(DeleteView):
+    """Рассылка - удаление"""
     model = Mail
     success_url = reverse_lazy("message:mail_list")
 
