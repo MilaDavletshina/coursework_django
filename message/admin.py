@@ -17,12 +17,12 @@ class SmsAdmin(admin.ModelAdmin):
 
 @admin.register(Mail)
 class MailAdmin(admin.ModelAdmin):
-    list_display = ('first_dispatch', 'end_sending', 'status', 'sms__topic')
+    list_display = ('first_dispatch', 'end_sending', 'status')
     search_fields = ('status',)
 
 
 @admin.register(Send)
 class SendAdmin(admin.ModelAdmin):
-    list_display = ('data', 'sending_status', 'answer', 'status__status')
+    list_display = ('data', 'sending_status', 'answer')
     search_fields = ('sending_status',)
     search_filter = ('sending_status',)
