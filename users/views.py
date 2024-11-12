@@ -5,6 +5,7 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 
+from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm
 from users.models import User
 
@@ -25,7 +26,7 @@ class UserCreateView(CreateView):
         url = f'http://{host}/users/email-confirm/{token}/'
         send_mail(
             subject='Подтверждение почты',
-            message=f'Привет! Перейди по ссылке для подтверждения почты {url}',
+            message=f'Привет! Для подтверждения почты перейдите по ссылке {url}',
             from_email=EMAIL_HOST_USER,
             recipient_list=[user.email]
         )
