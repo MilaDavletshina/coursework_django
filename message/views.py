@@ -142,30 +142,30 @@ class MailDeleteView(DeleteView):
     success_url = reverse_lazy("message:mail_list")
 
 
-def send_mail(mail):
-    """Функция отправки сообщений по требованию"""
-    clients = mail.client.all()
-    for client in clients:
-        try:
-            response = send_mail(
-                mail.message.subject,
-                mail.message.body,
-                'from@example.com',
-                [client.email],
-            )
-            status = 'Успешно'
-        except Exception as e:
-            response = str(e)
-            status = 'Не успешно'
-
-        Send.objects.create(
-            mail=mail,
-            status=status,
-            answer=response
-        )
-
-    # Обновление статуса рассылки
-    if status == 'Успешно':
-        mail.status = 'Запущен'
-        mail.first_dispatch = timezone.now()
-        mail.save()
+# def send_mail(mail):
+#     """Функция отправки сообщений по требованию"""
+#     clients = mail.client.all()
+#     for client in clients:
+#         try:
+#             response = send_mail(
+#                 mail.message.subject,
+#                 mail.message.body,
+#                 'from@example.com',
+#                 [client.email],
+#             )
+#             status = 'Успешно'
+#         except Exception as e:
+#             response = str(e)
+#             status = 'Не успешно'
+#
+#         Send.objects.create(
+#             mail=mail,
+#             status=status,
+#             answer=response
+#         )
+#
+#     # Обновление статуса рассылки
+#     if status == 'Успешно':
+#         mail.status = 'Запущен'
+#         mail.first_dispatch = timezone.now()
+#         mail.save()
