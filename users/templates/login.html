@@ -13,14 +13,12 @@
                 <form class="row" method="post" enctype="multipart/form-data">
                     <div class="card">
                         <div class="card-body">
-                            {%  csrf_token %}
+                            {% csrf_token %}
                             {{ form.as_p }}
                         </div>
                         <div class="row mb-2">
                         <div class="col-md-12">
-                            <button type="submit" class="btn btn-dark">
-                                Вход
-                            </button>
+                            <button type="submit" class="btn btn-dark">Вход</button>
                         </div>
                         </div>
                     </div>
