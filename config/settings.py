@@ -21,7 +21,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'message',
-    'users',
+    'users'
 ]
 
 MIDDLEWARE = [
@@ -98,5 +98,5 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = 'users.User' #приложение.Модель
 
-LOGIN_REDIRECT_URL = 'message:main'
-LOGOUT_REDIRECT_URL = 'message:main'
+# LOGIN_REDIRECT_URL = 'message:main'
+# LOGOUT_REDIRECT_URL = 'message:main'

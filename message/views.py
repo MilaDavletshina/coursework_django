@@ -69,7 +69,6 @@ class ClientCreateView(CreateView):
         return super().form_valid(form)
 
 
-
 class ClientUpdateView(UpdateView):
     """Получатель рассылки - обновление"""
     model = Client
