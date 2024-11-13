@@ -171,6 +171,7 @@
               <li class="nav-item"><a class="nav-link" href="{% url 'message:sms_list' %}" aria-disabled="true">Сообщения</a></li>
               <li class="nav-item"><a class="nav-link" href="{% url 'message:mail_list' %}" aria-disabled="true">Рассылки</a></li>
               <li class="nav-item"><a class="nav-link" href="#" aria-disabled="true">Попытки рассылки</a></li>
+              <li class="nav-item"><a class="nav-link" href="{% url 'message:contacts' %}" aria-disabled="true">Контакты</a></li>
             {% else %}
               <li class="nav-item"><a class="nav-link" href="{% url 'users:login' %}">Вход</a></li>
               <li class="nav-item"><a class="nav-link" href="{% url 'users:register' %}">Регистрация</a></li>
