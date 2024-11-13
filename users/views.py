@@ -32,6 +32,19 @@ class UserCreateView(CreateView):
         )
         return super().form_valid(form)
 
+    # def generate_new_password(request):
+    #     new_password = get_new_password()
+    #     send_mail(
+    #         subject='Вы сменили пароль',
+    #         message=f'Ваш новый пароль: {new_password}',
+    #         from_email=settings.EMAIL_HOST_USER,
+    #         recipient_list=[request.user.email]
+    #     )
+    #     request.user.set_password(new_password)
+    #     request.user.save()
+    #
+    #     return redirect(reverse('users:login'))
+
 
 def email_verification(request, token):
     user = get_object_or_404(User, token=token)
