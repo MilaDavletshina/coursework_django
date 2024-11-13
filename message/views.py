@@ -1,5 +1,6 @@
 from datetime import timezone
 
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render
@@ -52,24 +53,27 @@ class ClientListView(ListView):
 # app_name/<model_name>_<action> т.е будет message/client_list.html
 
 
-class ClientDetailView(DetailView):
+class ClientDetailView(DetailView, LoginRequiredMixin):
     """Получатель рассылки"""
     model = Client
 
 
-class ClientCreateView(CreateView):
+class ClientCreateView(CreateView, LoginRequiredMixin):
     """Получатель рассылки - создание"""
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("message:client_list")
 
     def form_valid(self, form):
-        self.object = form.save()
+        client = form.save()
+        user = self.request.user
+        client.owner = user
+        client.save()
 
         return super().form_valid(form)
 
 
-class ClientUpdateView(UpdateView):
+class ClientUpdateView(UpdateView, LoginRequiredMixin):
     """Получатель рассылки - обновление"""
     model = Client
     form_class = ClientForm
@@ -87,19 +91,27 @@ class SmsListView(ListView):
     model = Sms
 
 
-class SmsDetailView(DetailView):
+class SmsDetailView(DetailView, LoginRequiredMixin):
     """Просмотр выбранного сообщения"""
     model = Sms
 
 
-class SmsCreateView(CreateView):
+class SmsCreateView(CreateView, LoginRequiredMixin):
     """Сообщения - создание"""
     model = Sms
     form_class = SmsForm
     success_url = reverse_lazy("message:sms_list")
 
+    def form_valid(self, form):
+        sms = form.save()
+        user = self.request.user
+        sms.owner = user
+        sms.save()
 
-class SmsUpdateView(UpdateView):
+        return super().form_valid(form)
+
+
+class SmsUpdateView(UpdateView, LoginRequiredMixin):
     """Сообщения - обновление"""
     model = Sms
     form_class = SmsForm
@@ -117,19 +129,25 @@ class MailListView(ListView):
     model = Mail
 
 
-class MailDetailView(DetailView):
+class MailDetailView(DetailView, LoginRequiredMixin):
     """Просмотр выбранной рассылки"""
     model = Mail
 
 
-class MailCreateView(CreateView):
+class MailCreateView(CreateView, LoginRequiredMixin):
     """Рассылка - создание"""
     model = Mail
     form_class = MailForm
     success_url = reverse_lazy("message:mail_list")
 
+    def form_valid(self, form):
+        mail = form.save()
+        user = self.request.user
+        mail.owner = user
+        mail.save()
 
-class MailUpdateView(UpdateView):
+
+class MailUpdateView(UpdateView, LoginRequiredMixin):
     """Рассылка - обновление"""
     model = Mail
     form_class = MailForm
