@@ -1,4 +1,4 @@
-[tool.poetry]
+brew install redis[tool.poetry]
 name = "coursework-django"
 version = "0.1.0"
 description = ""

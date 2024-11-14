@@ -1,12 +1,13 @@
 from datetime import timezone
 
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from message.forms import ClientForm, SmsForm, MailForm
+from message.forms import ClientForm, SmsForm, MailForm, ClientModeratorForm, SmsModeratorForm, MailModeratorForm
 from message.models import Client, Sms, Mail, Send
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
 
@@ -57,6 +58,13 @@ class ClientDetailView(DetailView, LoginRequiredMixin):
     """Получатель рассылки"""
     model = Client
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
 
 class ClientCreateView(CreateView, LoginRequiredMixin):
     """Получатель рассылки - создание"""
@@ -79,6 +87,19 @@ class ClientUpdateView(UpdateView, LoginRequiredMixin):
     form_class = ClientForm
     success_url = reverse_lazy("message:client_list")
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("message.can_unblocking_client") and user.has_perm("message.can_disabling_mailings"):
+            return ClientModeratorForm
+        return ClientForm
+
 
 class ClientDeleteView(DeleteView):
     """Получатель рассылки - удаление"""
@@ -94,6 +115,13 @@ class SmsListView(ListView):
 class SmsDetailView(DetailView, LoginRequiredMixin):
     """Просмотр выбранного сообщения"""
     model = Sms
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
 
 
 class SmsCreateView(CreateView, LoginRequiredMixin):
@@ -117,6 +145,19 @@ class SmsUpdateView(UpdateView, LoginRequiredMixin):
     form_class = SmsForm
     success_url = reverse_lazy("message:sms_list")
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("message.can_unblocking_sms") and user.has_perm("message.can_disabling_mailings"):
+            return SmsModeratorForm
+        return SmsForm
+
 
 class SmsDeleteView(DeleteView):
     """Сообщения - удаление"""
@@ -132,6 +173,13 @@ class MailListView(ListView):
 class MailDetailView(DetailView, LoginRequiredMixin):
     """Просмотр выбранной рассылки"""
     model = Mail
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
 
 
 class MailCreateView(CreateView, LoginRequiredMixin):
@@ -152,6 +200,19 @@ class MailUpdateView(UpdateView, LoginRequiredMixin):
     model = Mail
     form_class = MailForm
     success_url = reverse_lazy("message:mail_list")
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
+    def get_form_class(self):
+        user = self.request.user
+        if user.has_perm("message.can_unblocking_mailing") and user.has_perm("message.can_disabling_mailings"):
+            return MailModeratorForm
+        return MailForm
 
 
 class MailDeleteView(DeleteView):
