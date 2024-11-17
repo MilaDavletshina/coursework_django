@@ -1,5 +1,5 @@
 from django.contrib import admin
-from message.models import Client, Sms, Mail, Send
+from message.models import Client, Sms, Mail, Send, Log
 
 
 @admin.register(Client)
@@ -26,3 +26,8 @@ class SendAdmin(admin.ModelAdmin):
     list_display = ('data', 'sending_status', 'answer')
     search_fields = ('sending_status',)
     search_filter = ('sending_status',)
+
+
+@admin.register(Log)
+class LogAdmin(admin.ModelAdmin):
+    list_display = ('pk', 'mail', 'last_time_mail', 'status', 'response',)
