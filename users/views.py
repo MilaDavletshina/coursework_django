@@ -60,7 +60,7 @@ class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
     form_class = UserForgotPasswordForm
     template_name = 'users/user_password_reset.html'
     success_url = reverse_lazy('users:login')
-    success_message = 'Письмо с инструкцией по восстановлению пароля отправлена на ваш email'
+    success_message = 'Письмо с инструкцией по восстановлению пароля отправлено на ваш email'
     subject_template_name = 'users/email/password_subject_reset_mail.txt'
     email_template_name = 'users/email/password_reset_mail.html'
 
