@@ -14,23 +14,27 @@
     </div>
     <div class="row mb-2">
     <div class="col-md-12">
-      {% for client in object_list %}
+      {% for object in object_list %}
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Электронная почта: {{client.email}}</strong>
-          <strong class="d-inline-block mb-2 text-primary-emphasis">ФИО: {{client.name}}</strong>
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Комментарии: {{client.comment}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Электронная почта: {{object.email}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">ФИО: {{object.name}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Комментарии: {{object.comment}}</strong>
+          {% if user.is_authenticated or user.is_superuser%}
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Автор: {{object.owner}}</strong>
+          {% endif %}
+
         </div>
         <div class="row mb-2">
         {% if user.is_authenticated%}
           <div class="col-md-12">
-            <a class="btn btn-dark" href="{% url 'message:client_detail' client.pk %}" role="button">Посмотреть</a>
-            {% if perms.message.can_unblocking_client and  perms.message.can_disabling_mailings or message.owner == object.user.email %}
-              <a class="btn btn-dark" href="{% url 'message:client_update' client.pk %}" role="button">Редактировать</a>
-            {% endif %}
+            <a class="btn btn-dark" href="{% url 'message:client_detail' object.pk %}" role="button">Посмотреть</a>
+            <a class="btn btn-dark" href="{% url 'message:client_update' object.pk %}" role="button">Редактировать</a>
+
             {% if perms.message.delete_client or client.owner == object.user.email %}
-              <a class="btn btn-dark" href="{% url 'message:client_delete' client.pk %}" role="button">Удалить</a>
+              <a class="btn btn-dark" href="{% url 'message:client_delete' object.pk %}" role="button">Удалить</a>
             {% endif %}
+
           </div>
         {% endif %}
         </div>

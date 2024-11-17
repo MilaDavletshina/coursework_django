@@ -4,12 +4,14 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 
 from message.forms import ClientForm, SmsForm, MailForm, ClientModeratorForm, SmsModeratorForm, MailModeratorForm
 from message.models import Client, Sms, Mail, Send
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+
+from message.services import get_clients_from_cash
 
 
 def base(request):
@@ -51,12 +53,16 @@ class ClientListView(ListView):
     """Получатели рассылок - просмотр"""
     model = Client
 
+    def get_queryset(self):
+        return get_clients_from_cash()
+
 # app_name/<model_name>_<action> т.е будет message/client_list.html
 
 
 class ClientDetailView(DetailView, LoginRequiredMixin):
     """Получатель рассылки"""
     model = Client
+    form_class = ClientForm
 
     def get_object(self, queryset=None):
         self.object = super().get_object(queryset)
@@ -105,6 +111,13 @@ class ClientDeleteView(DeleteView):
     """Получатель рассылки - удаление"""
     model = Client
     success_url = reverse_lazy("message:client_list")
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
 
 
 class SmsListView(ListView):
@@ -164,6 +177,13 @@ class SmsDeleteView(DeleteView):
     model = Sms
     success_url = reverse_lazy("message:sms_list")
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
 
 class MailListView(ListView):
     """Рассылка - просмотр"""
@@ -219,6 +239,15 @@ class MailDeleteView(DeleteView):
     """Рассылка - удаление"""
     model = Mail
     success_url = reverse_lazy("message:mail_list")
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
+
 
 
 # def send_mail(mail):

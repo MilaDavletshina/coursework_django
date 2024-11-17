@@ -14,21 +14,23 @@
     </div>
     <div class="row mb-2">
     <div class="col-md-12">
-      {% for sms in object_list %}
+      {% for object in object_list %}
       <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
         <div class="col p-4 d-flex flex-column position-static">
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Тема сообщения: {{sms.topic}}</strong>
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Содержание: {{sms.content}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Тема сообщения: {{object.topic}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Содержание: {{object.content}}</strong>
+          {% if user.is_authenticated or user.is_superuser%}
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Автор: {{object.owner}}</strong>
+
         </div>
         <div class="row mb-2">
         {% if user.is_authenticated%}
         <div class="col-md-12">
-          <a class="btn btn-dark" href="{% url 'message:sms_detail' sms.pk %}" role="button">Посмотреть</a>
-          {% if perms.message.can_unblocking_sms and  perms.message.can_disabling_mailings or message.owner == object.user.email %}
-            <a class="btn btn-dark" href="{% url 'message:sms_update' sms.pk %}" role="button">Редактировать</a>
+          <a class="btn btn-dark" href="{% url 'message:sms_detail' object.pk %}" role="button">Посмотреть</a>
+          <a class="btn btn-dark" href="{% url 'message:sms_update' object.pk %}" role="button">Редактировать</a>
           {% endif %}
           {% if perms.message.delete_sms or sms.owner == object.user.email %}
-            <a class="btn btn-dark" href="{% url 'message:sms_delete' sms.pk %}" role="button">Удалить</a>
+            <a class="btn btn-dark" href="{% url 'message:sms_delete' object.pk %}" role="button">Удалить</a>
           {% endif %}
         </div>
         {% endif %}
