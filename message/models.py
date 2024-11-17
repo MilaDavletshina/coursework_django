@@ -92,17 +92,17 @@ class Send(models.Model):
         ordering = ['sending_status',]
 
 
-class Log(models.Model):
-    """Логирование попытки рассылки"""
-    mail = models.ForeignKey(Mail, on_delete=models.CASCADE, verbose_name='Рассылка')
-    last_time_mail = models.DateTimeField(auto_now=True, verbose_name='дата и время последней попытки')
-    status = models.CharField(max_length=50, verbose_name='Статус попытки')
-    response = models.TextField(verbose_name='Ответ сервера', null=True, blank=True)
-
-    def __str__(self):
-        return (f'Дата и время последней попытки: {self.last_time_mail}.'
-                f' Статус попытки:{self.status}')
-
-    class Meta:
-        verbose_name = 'Лог'
-        verbose_name_plural = 'Логи'
+# class Log(models.Model):
+#     """Логирование попытки рассылки"""
+#     mail = models.ForeignKey(Mail, on_delete=models.CASCADE, verbose_name='Рассылка')
+#     last_time_mail = models.DateTimeField(auto_now=True, verbose_name='дата и время последней попытки')
+#     status = models.CharField(max_length=50, verbose_name='Статус попытки')
+#     response = models.TextField(verbose_name='Ответ сервера', null=True, blank=True)
+#
+#     def __str__(self):
+#         return (f'Дата и время последней попытки: {self.last_time_mail}.'
+#                 f' Статус попытки:{self.status}')
+#
+#     class Meta:
+#         verbose_name = 'Лог'
+#         verbose_name_plural = 'Логи'

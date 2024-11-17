@@ -28,6 +28,6 @@ class SendAdmin(admin.ModelAdmin):
     search_filter = ('sending_status',)
 
 
-@admin.register(Log)
-class LogAdmin(admin.ModelAdmin):
-    list_display = ('pk', 'mail', 'last_time_mail', 'status', 'response',)
+# @admin.register(Log)
+# class LogAdmin(admin.ModelAdmin):
+#     list_display = ('pk', 'mail', 'last_time_mail', 'status', 'response',)

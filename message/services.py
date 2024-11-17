@@ -27,6 +27,7 @@ def run_mail(request, pk):
                 server_response='Email отправлен',
                 mailing=mailing,
             )
+
         except Exception as e:
             print(f"Ошибка при отправке письма для {client.email}: {str(e)}")
             Send.objects.create(
