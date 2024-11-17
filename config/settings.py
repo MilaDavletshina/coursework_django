@@ -21,7 +21,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'message',
-    'users'
+    'users',
+    'django.contrib.sites',
 ]
 
 MIDDLEWARE = [
@@ -121,3 +122,5 @@ if CACHE_ENABLED:
             "LOCATION": os.getenv('LOCATION')
         }
     }
+
+SITE_ID = 1
