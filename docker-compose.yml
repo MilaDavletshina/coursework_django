@@ -1,0 +1,11 @@
+services:
+
+  bo-redis:
+    container_name: bo-redis
+    image: redis:7.4
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - ./redis/data:/root/redis
+      - ./redis/conf/redis.conf:/usr/local/etc/redis/redis.conf
