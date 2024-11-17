@@ -6,44 +6,53 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('message', '0007_client_is_active_mail_is_active'),
+        ("message", "0007_client_is_active_mail_is_active"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='client',
-            options={'ordering': ['name'], 'verbose_name': 'Получатель', 'verbose_name_plural': 'Получатели'},
+            name="client",
+            options={
+                "ordering": ["name"],
+                "verbose_name": "Получатель",
+                "verbose_name_plural": "Получатели",
+            },
         ),
         migrations.AlterModelOptions(
-            name='mail',
-            options={'ordering': ['status'], 'permissions': [('set_is_active', 'set is active')], 'verbose_name': 'Рассылка', 'verbose_name_plural': 'Рассылки'},
+            name="mail",
+            options={
+                "ordering": ["status"],
+                "permissions": [("set_is_active", "set is active")],
+                "verbose_name": "Рассылка",
+                "verbose_name_plural": "Рассылки",
+            },
         ),
         migrations.AlterModelOptions(
-            name='sms',
-            options={'verbose_name': 'Сообщение', 'verbose_name_plural': 'Сообщения'},
+            name="sms",
+            options={"verbose_name": "Сообщение", "verbose_name_plural": "Сообщения"},
         ),
         migrations.RemoveField(
-            model_name='client',
-            name='blocking_client',
+            model_name="client",
+            name="blocking_client",
         ),
         migrations.RemoveField(
-            model_name='client',
-            name='disabling_mailings',
+            model_name="client",
+            name="disabling_mailings",
         ),
         migrations.RemoveField(
-            model_name='mail',
-            name='blocking_mailing',
+            model_name="mail",
+            name="blocking_mailing",
         ),
         migrations.RemoveField(
-            model_name='mail',
-            name='disabling_mailings',
+            model_name="mail",
+            name="disabling_mailings",
         ),
         migrations.RemoveField(
-            model_name='sms',
-            name='blocking_sms',
+            model_name="sms",
+            name="blocking_sms",
         ),
         migrations.RemoveField(
-            model_name='sms',
-            name='disabling_mailings',
+            model_name="sms",
+            name="disabling_mailings",
         ),
     ]

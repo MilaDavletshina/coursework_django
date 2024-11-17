@@ -24,7 +24,7 @@ def run_mail(request, pk):
             Send.objects.create(
                 date_attempt=timezone.now(),
                 status=Send.STATUS_OK,
-                server_response='Email отправлен',
+                server_response="Email отправлен",
                 mailing=mailing,
             )
 
@@ -40,7 +40,7 @@ def run_mail(request, pk):
         # Если время рассылки закончилось, обновляем статус на "завершено"
         mailing.status = Mail.STATUS_COMPETED
     mailing.save()
-    return redirect('mailing:mail_list')
+    return redirect("mailing:mail_list")
 
 
 def get_clients_from_cash():

@@ -1,15 +1,26 @@
-from datetime import timezone
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import PermissionDenied
-from django.core.mail import send_mail
 from django.http import HttpResponse
-from django.shortcuts import render, get_object_or_404, redirect
+from django.shortcuts import render
 from django.urls import reverse_lazy
 
-from message.forms import ClientForm, SmsForm, MailForm, ClientModeratorForm, SmsModeratorForm, MailModeratorForm
-from message.models import Client, Sms, Mail, Send
-from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, TemplateView
+from message.forms import (
+    ClientForm,
+    SmsForm,
+    MailForm,
+    ClientModeratorForm,
+    SmsModeratorForm,
+    MailModeratorForm,
+)
+from message.models import Client, Sms, Mail
+from django.views.generic import (
+    ListView,
+    DetailView,
+    CreateView,
+    UpdateView,
+    DeleteView,
+    TemplateView,
+)
 
 from message.services import get_clients_from_cash
 
@@ -21,46 +32,51 @@ def base(request):
 
 class Contacts(TemplateView):
     """Шаблон контакты"""
+
     template_name = "message/contacts.html"
 
     def contacts(request):
-        if request.method == 'POST':
-            name = request.POST.get('name')  # получаем имя
-            message = request.POST.get('message')  # получаем сообщение
-
-            return HttpResponse(f"Спасибо, {name}! Сообщение получено.")
-        return render(request, 'message/contacts.html')
+        if request.method == "POST":
+            name = request.POST.get("name")  # получаем имя
+            message = request.POST.get("message")  # получаем сообщение
+            return HttpResponse(f"Спасибо, {name}! {message} Сообщение получено.")
+        return render(request, "message/contacts.html")
 
 
 class Message(TemplateView):
     """Страница ответа на отправленное сообщение"""
+
     template_name = "message/message.html"
 
 
 class MainView(TemplateView):
     """Главная страница"""
-    template_name = 'message/main.html'
+
+    template_name = "message/main.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['mail_count'] = len(Mail.objects.all())
-        context['active_count'] = len(Mail.objects.filter(status='Запущен'))
-        context['unique_email'] = len(Client.objects.all())
+        context["mail_count"] = len(Mail.objects.all())
+        context["active_count"] = len(Mail.objects.filter(status="Запущен"))
+        context["unique_email"] = len(Client.objects.all())
         return context
 
 
 class ClientListView(ListView):
     """Получатели рассылок - просмотр"""
+
     model = Client
 
     def get_queryset(self):
         return get_clients_from_cash()
+
 
 # app_name/<model_name>_<action> т.е будет message/client_list.html
 
 
 class ClientDetailView(DetailView, LoginRequiredMixin):
     """Получатель рассылки"""
+
     model = Client
     form_class = ClientForm
 
@@ -74,6 +90,7 @@ class ClientDetailView(DetailView, LoginRequiredMixin):
 
 class ClientCreateView(CreateView, LoginRequiredMixin):
     """Получатель рассылки - создание"""
+
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("message:client_list")
@@ -89,6 +106,7 @@ class ClientCreateView(CreateView, LoginRequiredMixin):
 
 class ClientUpdateView(UpdateView, LoginRequiredMixin):
     """Получатель рассылки - обновление"""
+
     model = Client
     form_class = ClientForm
     success_url = reverse_lazy("message:client_list")
@@ -102,13 +120,16 @@ class ClientUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_form_class(self):
         user = self.request.user
-        if user.has_perm("message.can_unblocking_client") and user.has_perm("message.can_disabling_mailings"):
+        if user.has_perm("message.can_unblocking_client") and user.has_perm(
+            "message.can_disabling_mailings"
+        ):
             return ClientModeratorForm
         return ClientForm
 
 
 class ClientDeleteView(DeleteView):
     """Получатель рассылки - удаление"""
+
     model = Client
     success_url = reverse_lazy("message:client_list")
 
@@ -122,11 +143,13 @@ class ClientDeleteView(DeleteView):
 
 class SmsListView(ListView):
     """Сообщения - просмотр"""
+
     model = Sms
 
 
 class SmsDetailView(DetailView, LoginRequiredMixin):
     """Просмотр выбранного сообщения"""
+
     model = Sms
 
     def get_object(self, queryset=None):
@@ -139,6 +162,7 @@ class SmsDetailView(DetailView, LoginRequiredMixin):
 
 class SmsCreateView(CreateView, LoginRequiredMixin):
     """Сообщения - создание"""
+
     model = Sms
     form_class = SmsForm
     success_url = reverse_lazy("message:sms_list")
@@ -154,6 +178,7 @@ class SmsCreateView(CreateView, LoginRequiredMixin):
 
 class SmsUpdateView(UpdateView, LoginRequiredMixin):
     """Сообщения - обновление"""
+
     model = Sms
     form_class = SmsForm
     success_url = reverse_lazy("message:sms_list")
@@ -167,13 +192,16 @@ class SmsUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_form_class(self):
         user = self.request.user
-        if user.has_perm("message.can_unblocking_sms") and user.has_perm("message.can_disabling_mailings"):
+        if user.has_perm("message.can_unblocking_sms") and user.has_perm(
+            "message.can_disabling_mailings"
+        ):
             return SmsModeratorForm
         return SmsForm
 
 
 class SmsDeleteView(DeleteView):
     """Сообщения - удаление"""
+
     model = Sms
     success_url = reverse_lazy("message:sms_list")
 
@@ -187,11 +215,13 @@ class SmsDeleteView(DeleteView):
 
 class MailListView(ListView):
     """Рассылка - просмотр"""
+
     model = Mail
 
 
 class MailDetailView(DetailView, LoginRequiredMixin):
     """Просмотр выбранной рассылки"""
+
     model = Mail
 
     def get_object(self, queryset=None):
@@ -204,6 +234,7 @@ class MailDetailView(DetailView, LoginRequiredMixin):
 
 class MailCreateView(CreateView, LoginRequiredMixin):
     """Рассылка - создание"""
+
     model = Mail
     form_class = MailForm
     success_url = reverse_lazy("message:mail_list")
@@ -217,6 +248,7 @@ class MailCreateView(CreateView, LoginRequiredMixin):
 
 class MailUpdateView(UpdateView, LoginRequiredMixin):
     """Рассылка - обновление"""
+
     model = Mail
     form_class = MailForm
     success_url = reverse_lazy("message:mail_list")
@@ -230,13 +262,16 @@ class MailUpdateView(UpdateView, LoginRequiredMixin):
 
     def get_form_class(self):
         user = self.request.user
-        if user.has_perm("message.can_unblocking_mailing") and user.has_perm("message.can_disabling_mailings"):
+        if user.has_perm("message.can_unblocking_mailing") and user.has_perm(
+            "message.can_disabling_mailings"
+        ):
             return MailModeratorForm
         return MailForm
 
 
 class MailDeleteView(DeleteView):
     """Рассылка - удаление"""
+
     model = Mail
     success_url = reverse_lazy("message:mail_list")
 
@@ -246,8 +281,6 @@ class MailDeleteView(DeleteView):
             self.object.save()
             return self.object
         raise PermissionDenied
-
-
 
 
 # def send_mail(mail):

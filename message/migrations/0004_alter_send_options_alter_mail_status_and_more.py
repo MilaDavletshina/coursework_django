@@ -6,22 +6,43 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('message', '0003_alter_mail_client_alter_mail_end_sending_and_more'),
+        ("message", "0003_alter_mail_client_alter_mail_end_sending_and_more"),
     ]
 
     operations = [
         migrations.AlterModelOptions(
-            name='send',
-            options={'ordering': ['sending_status'], 'verbose_name': 'Управление рассылкой', 'verbose_name_plural': 'Управление рассылками'},
+            name="send",
+            options={
+                "ordering": ["sending_status"],
+                "verbose_name": "Управление рассылкой",
+                "verbose_name_plural": "Управление рассылками",
+            },
         ),
         migrations.AlterField(
-            model_name='mail',
-            name='status',
-            field=models.CharField(choices=[('Завершен', 'статус: Завершен'), ('Создан', 'статус: Создан'), ('Запущен', 'статус: Запущен')], default='Запущен', max_length=10, verbose_name='Статус рассылки'),
+            model_name="mail",
+            name="status",
+            field=models.CharField(
+                choices=[
+                    ("Завершен", "статус: Завершен"),
+                    ("Создан", "статус: Создан"),
+                    ("Запущен", "статус: Запущен"),
+                ],
+                default="Запущен",
+                max_length=10,
+                verbose_name="Статус рассылки",
+            ),
         ),
         migrations.AlterField(
-            model_name='send',
-            name='sending_status',
-            field=models.CharField(choices=[('Успешно', 'статус: Успешно'), ('Не успешно', 'статус: Не успешно')], default='Успешно', max_length=10, verbose_name='Статус попытки рассылки'),
+            model_name="send",
+            name="sending_status",
+            field=models.CharField(
+                choices=[
+                    ("Успешно", "статус: Успешно"),
+                    ("Не успешно", "статус: Не успешно"),
+                ],
+                default="Успешно",
+                max_length=10,
+                verbose_name="Статус попытки рассылки",
+            ),
         ),
     ]

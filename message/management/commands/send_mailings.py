@@ -7,10 +7,12 @@ from message.models import Send, Mail
 
 
 class Command(BaseCommand):
-    help = 'Отправка почтовых отправлений получателям'
+    help = "Отправка почтовых отправлений получателям"
 
     def handle(self, *args, **kwargs):
-        mailings = Mail.objects.filter(status__in=[Mail.STATUS_CREATED, Mail.STATUS_LAUNCHED])
+        mailings = Mail.objects.filter(
+            status__in=[Mail.STATUS_CREATED, Mail.STATUS_LAUNCHED]
+        )
         for mailing in mailings:
             for recipient in mailing.recipients.all():
                 try:
@@ -27,7 +29,9 @@ class Command(BaseCommand):
                         answer="Email отправлен",
                         status=mailing,
                     )
-                    print(f'Сообщение {mailing.sms.topic} успешно отправлено на  {recipient.email}')
+                    print(
+                        f"Сообщение {mailing.sms.topic} успешно отправлено на  {recipient.email}"
+                    )
                 except Exception as e:
                     Send.objects.create(
                         data=timezone.now(),
