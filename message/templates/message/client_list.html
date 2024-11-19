@@ -25,7 +25,7 @@
           <strong class="d-inline-block mb-2 text-primary-emphasis">Комментарии: {{object.comment}}</strong>
 
           {% if user.is_authenticated or user.is_superuser%}
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Автор: {{object.owner}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Пользователь: {{object.owner}}</strong>
           {% endif %}
         </div>
       </div>

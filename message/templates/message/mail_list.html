@@ -30,7 +30,7 @@
           <strong class="d-inline-block mb-2 text-primary-emphasis">Статус рассылки: {{object.status |yesno:"Активна, Не активна"}}</strong>
 
           {% if user.is_authenticated or user.is_superuser %}
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Автор: {{ object.owner }}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Пользователь: {{ object.owner }}</strong>
           <strong class="d-inline-block mb-2 text-primary-emphasis">Активность: {{ object.is_active |yesno:"Активна, Не активна" }}</strong>
           <strong class="d-inline-block mb-2 text-primary-emphasis">Дата первой отправки: {{object.first_dispatch |date:"d M Y"}}</strong>
           <strong class="d-inline-block mb-2 text-primary-emphasis">Дата окончания отправки: {{object.end_sending |date:"d M Y"}}</strong>

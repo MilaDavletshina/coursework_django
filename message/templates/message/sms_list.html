@@ -20,7 +20,7 @@
           <strong class="d-inline-block mb-2 text-primary-emphasis">Тема сообщения: {{object.topic}}</strong>
           <strong class="d-inline-block mb-2 text-primary-emphasis">Содержание: {{object.content}}</strong>
           {% if user.is_authenticated or user.is_superuser%}
-          <strong class="d-inline-block mb-2 text-primary-emphasis">Автор: {{object.owner}}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Пользователь: {{object.owner}}</strong>
 
         </div>
         <div class="row mb-2">
