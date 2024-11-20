@@ -118,7 +118,8 @@ class Mail(models.Model):
         ordering = [
             "status",
         ]
-        permissions = [("set_is_active", "set is active")]
+        permissions = [("set_is_active", "set is active"),
+                       ("can_disable_mailing", "can disable mailing")]
 
 
 class Send(models.Model):
