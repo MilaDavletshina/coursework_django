@@ -37,6 +37,9 @@ class Client(models.Model):
         ordering = [
             "name",
         ]
+        permissions = [
+            ('can_blocking_client', 'Может блокировать получателя'),
+        ]
 
 
 class Sms(models.Model):
@@ -51,6 +54,7 @@ class Sms(models.Model):
         verbose_name="Содержание",
         help_text="Добавьте содержание",
     )  # Тело письма (текст)
+    is_active = models.BooleanField(default=True, verbose_name="активность")
     owner = models.ForeignKey(
         User,
         verbose_name="Владелец сообщения",
@@ -66,6 +70,9 @@ class Sms(models.Model):
     class Meta:
         verbose_name = "Сообщение"
         verbose_name_plural = "Сообщения"
+        permissions = [
+            ('can_blocking_sms', 'Может блокировать сообщение'),
+        ]
 
 
 class Mail(models.Model):
@@ -118,8 +125,9 @@ class Mail(models.Model):
         ordering = [
             "status",
         ]
-        permissions = [("set_is_active", "set is active"),
-                       ("can_disable_mailing", "can disable mailing")]
+        permissions = [
+            ("set_is_active", "set is active"),
+        ]
 
 
 class Send(models.Model):

@@ -14,39 +14,39 @@ class ClientForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Client
         fields = "__all__"
-        exclude = ("blocking_client", "disabling_mailings", "owner")
+        exclude = ("can_blocking_client", "owner")
 
 
 class SmsForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Sms
         fields = "__all__"
-        exclude = ("blocking_sms", "disabling_mailings", "owner")
+        exclude = ("can_blocking_sms", "owner")
 
 
 class MailForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Mail
         fields = "__all__"
-        exclude = ("blocking_mailing", "disabling_mailings", "owner")
+        exclude = ("set_is_active", "owner")
 
 
 class ClientModeratorForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Client
         fields = "__all__"
-        exclude = ["blocking_client", "disabling_mailings"]
+        exclude = ["can_blocking_client",]
 
 
 class SmsModeratorForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Client
         fields = "__all__"
-        exclude = ["blocking_sms", "disabling_mailings"]
+        exclude = ["can_blocking_sms",]
 
 
 class MailModeratorForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Client
         fields = "__all__"
-        exclude = ["blocking_mailing", "disabling_mailings"]
+        exclude = ["set_is_active",]
