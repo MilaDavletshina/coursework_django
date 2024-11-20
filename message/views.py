@@ -67,10 +67,15 @@ class ClientListView(ListView):
 
     model = Client
 
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
     def get_queryset(self):
         return get_clients_from_cash()
-
-
 # app_name/<model_name>_<action> т.е будет message/client_list.html
 
 
