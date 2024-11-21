@@ -8,12 +8,14 @@ from users.models import User
 
 
 class UserRegisterForm(StyleFormMixin, UserCreationForm):
+    """Форма регистрации пользователя"""
     class Meta:
         model = User
         fields = ("email", "password1", "password2")
 
 
 class UserForm(StyleFormMixin, UserChangeForm):
+    """Форма данных пользователя"""
     class Meta:
         model = User
         fields = (
@@ -28,6 +30,7 @@ class UserForm(StyleFormMixin, UserChangeForm):
 
 
 class UserUpdateForm(StyleFormMixin, ModelForm):
+    """Форма обновления данных пользователя"""
     class Meta:
         model = User
         fields = (
@@ -43,7 +46,7 @@ class UserUpdateForm(StyleFormMixin, ModelForm):
 
 
 class UserForgotPasswordForm(PasswordResetForm):
-    """Запрос на восстановление пароля"""
+    """Форма запроса на восстановление пароля"""
 
     def __init__(self, *args, **kwargs):
         """Обновление стилей формы"""
@@ -55,7 +58,7 @@ class UserForgotPasswordForm(PasswordResetForm):
 
 
 class UserSetNewPasswordForm(SetPasswordForm):
-    """Изменение пароля пользователя после подтверждения"""
+    """Форма изменения пароля пользователя после подтверждения"""
 
     def __init__(self, *args, **kwargs):
         """Обновление стилей формы"""
