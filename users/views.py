@@ -7,7 +7,7 @@ from django.core.exceptions import PermissionDenied
 from django.core.mail import send_mail
 from django.shortcuts import get_object_or_404, redirect
 from django.urls import reverse_lazy, reverse
-from django.views.generic import CreateView, ListView, DetailView, CreateView, UpdateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView
 
 from config.settings import EMAIL_HOST_USER
 from users.forms import UserRegisterForm, UserForgotPasswordForm, UserSetNewPasswordForm, UserForm, UserUpdateForm
@@ -37,21 +37,9 @@ class UserCreateView(CreateView):
         )
         return super().form_valid(form)
 
-    # def generate_new_password(request):
-    #     new_password = get_new_password()
-    #     send_mail(
-    #         subject='Вы сменили пароль',
-    #         message=f'Ваш новый пароль: {new_password}',
-    #         from_email=settings.EMAIL_HOST_USER,
-    #         recipient_list=[request.user.email]
-    #     )
-    #     request.user.set_password(new_password)
-    #     request.user.save()
-    #
-    #     return redirect(reverse('users:login'))
-
 
 def email_verification(request, token):
+    """Подтверждение email"""
     user = get_object_or_404(User, token=token)
     user.is_active = True
     user.save()
@@ -77,9 +65,7 @@ class UserForgotPasswordView(SuccessMessageMixin, PasswordResetView):
 
 
 class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView):
-    """
-    Представление установки нового пароля
-    """
+    """Представление установки нового пароля"""
 
     form_class = UserSetNewPasswordForm
     template_name = "users/user_password_set_new.html"
@@ -93,7 +79,7 @@ class UserPasswordResetConfirmView(SuccessMessageMixin, PasswordResetConfirmView
 
 
 class UserListView(ListView, LoginRequiredMixin):
-    """Пользователь - просмотр"""
+    """Страница пользователей"""
 
     model = User
     template_name = "users/user_list.html"
