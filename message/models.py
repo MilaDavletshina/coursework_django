@@ -154,7 +154,7 @@ class Send(models.Model):
         null=True, blank=True, verbose_name="Ответ почтового сервера"
     )
     status = models.ForeignKey(
-        Mail, on_delete=models.CASCADE, related_name="send", verbose_name="Рассылка"
+        Mail, on_delete=models.CASCADE, related_name="send", verbose_name="Статус рассылки"
     )  # внешний ключ на модель «Рассылка»
     owner = models.ForeignKey(
         User,
@@ -172,6 +172,7 @@ class Send(models.Model):
         verbose_name = "Управление рассылкой"
         verbose_name_plural = "Управление рассылками"
         ordering = [
+            "data",
             "sending_status",
         ]
 
