@@ -22,7 +22,7 @@ from django.views.generic import (
     TemplateView,
 )
 
-from message.services import get_clients_from_cash, get_send_from_cash
+from message.services import get_clients_from_cash, get_send_from_cash, send_mail
 
 
 def base(request):
@@ -301,6 +301,7 @@ class SendListView(ListView, LoginRequiredMixin):
     def get_queryset(self):
         return get_send_from_cash()
 
+
 class SendCreateView(LoginRequiredMixin, CreateView):
     model = Send
     form_class = SendForm
@@ -311,30 +312,3 @@ class SendCreateView(LoginRequiredMixin, CreateView):
         send.owner = user
         send.save()
 
-# def send_mail(mail):
-#     """Функция отправки сообщений по требованию"""
-#     clients = mail.client.all()
-#     for client in clients:
-#         try:
-#             response = send_mail(
-#                 mail.message.subject,
-#                 mail.message.body,
-#                 'from@example.com',
-#                 [client.email],
-#             )
-#             status = 'Успешно'
-#         except Exception as e:
-#             response = str(e)
-#             status = 'Не успешно'
-#
-#         Send.objects.create(
-#             mail=mail,
-#             status=status,
-#             answer=response
-#         )
-#
-#     # Обновление статуса рассылки
-#     if status == 'Успешно':
-#         mail.status = 'Запущен'
-#         mail.first_dispatch = timezone.now()
-#         mail.save()

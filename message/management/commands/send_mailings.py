@@ -7,20 +7,21 @@ from message.models import Send, Mail
 
 
 class Command(BaseCommand):
-    help = "Отправка почтовых отправлений получателям"
+    """Отправка рассылки вручную через командную строку"""
+    help = "Отправка почтовых уведомлений получателям"
 
     def handle(self, *args, **kwargs):
         mailings = Mail.objects.filter(
             status__in=[Mail.STATUS_CREATED, Mail.STATUS_LAUNCHED]
         )
         for mailing in mailings:
-            for recipient in mailing.recipients.all():
+            for client in mailing.client.all():
                 try:
                     send_mail(
                         mailing.sms.topic,
                         mailing.sms.content,
                         from_email=EMAIL_HOST_USER,
-                        recipient_list=[recipient.email],
+                        recipient_list=[client.email],
                         fail_silently=False,
                     )
                     Send.objects.create(
@@ -30,7 +31,7 @@ class Command(BaseCommand):
                         status=mailing,
                     )
                     print(
-                        f"Сообщение {mailing.sms.topic} успешно отправлено на  {recipient.email}"
+                        f"Сообщение {mailing.sms.topic} успешно отправлено на  {client.email}"
                     )
                 except Exception as e:
                     Send.objects.create(
