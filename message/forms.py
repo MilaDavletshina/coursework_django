@@ -1,6 +1,6 @@
 from django.forms import ModelForm
 
-from message.models import Client, Sms, Mail
+from message.models import Client, Sms, Mail, Send
 
 
 class StyleFormMixin:
@@ -31,6 +31,12 @@ class MailForm(StyleFormMixin, ModelForm):
         exclude = ("set_is_active", "owner")
 
 
+class SendForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Send
+        fields = "__all__"
+
+
 class ClientModeratorForm(StyleFormMixin, ModelForm):
     class Meta:
         model = Client
@@ -50,3 +56,9 @@ class MailModeratorForm(StyleFormMixin, ModelForm):
         model = Client
         fields = "__all__"
         exclude = ["set_is_active",]
+
+
+class SendModeratorForm(StyleFormMixin, ModelForm):
+    class Meta:
+        model = Send
+        fields = "__all__"
