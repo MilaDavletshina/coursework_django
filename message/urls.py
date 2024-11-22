@@ -1,4 +1,4 @@
-from django.core.mail import send_mail
+
 from django.urls import path
 from django.views.decorators.cache import cache_page
 
@@ -22,7 +22,7 @@ from message.views import (
     MailDeleteView,
     MainView,
     Contacts,
-    Message,
+    Message, SendListView, SendCreateView,
 )
 
 
@@ -39,6 +39,7 @@ urlpatterns = [
     path("client/create/", ClientCreateView.as_view(), name="client_create"),
     path("client/<int:pk>/update/", ClientUpdateView.as_view(), name="client_update"),
     path("client/<int:pk>/delete/", ClientDeleteView.as_view(), name="client_delete"),
+    path("client/<int:pk>/run_mail/", run_mail, name="run_mail"),
 
     path("sms/list/", SmsListView.as_view(), name="sms_list"),
     path("sms/<int:pk>/", SmsDetailView.as_view(), name="sms_detail"),
@@ -52,4 +53,7 @@ urlpatterns = [
     path("mail/<int:pk>/update/", MailUpdateView.as_view(), name="mail_update"),
     path("mail/<int:pk>/delete/", MailDeleteView.as_view(), name="mail_delete"),
     path("mail/<int:pk>/run_mail/", run_mail, name="run_mail"),
+
+    path("send/", SendListView.as_view(), name="send_list"),
+    path("send/create/", SendCreateView.as_view(), name="send_create"),
 ]
