@@ -10,9 +10,9 @@ from message.forms import (
     MailForm,
     ClientModeratorForm,
     SmsModeratorForm,
-    MailModeratorForm,
+    MailModeratorForm, SendForm,
 )
-from message.models import Client, Sms, Mail
+from message.models import Client, Sms, Mail, Send
 from django.views.generic import (
     ListView,
     DetailView,
@@ -22,7 +22,7 @@ from django.views.generic import (
     TemplateView,
 )
 
-from message.services import get_clients_from_cash
+from message.services import get_clients_from_cash, get_send_from_cash
 
 
 def base(request):
@@ -287,6 +287,29 @@ class MailDeleteView(DeleteView):
             return self.object
         raise PermissionDenied
 
+
+class SendListView(ListView, LoginRequiredMixin):
+    model = Send
+
+    def get_object(self, queryset=None):
+        self.object = super().get_object(queryset)
+        if self.request.user == self.object.owner:
+            self.object.save()
+            return self.object
+        raise PermissionDenied
+
+    def get_queryset(self):
+        return get_send_from_cash()
+
+class SendCreateView(LoginRequiredMixin, CreateView):
+    model = Send
+    form_class = SendForm
+
+    def form_valid(self, form):
+        send = form.save()
+        user = self.request.user
+        send.owner = user
+        send.save()
 
 # def send_mail(mail):
 #     """Функция отправки сообщений по требованию"""
