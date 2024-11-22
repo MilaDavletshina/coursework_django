@@ -156,6 +156,14 @@ class Send(models.Model):
     status = models.ForeignKey(
         Mail, on_delete=models.CASCADE, related_name="send", verbose_name="Рассылка"
     )  # внешний ключ на модель «Рассылка»
+    owner = models.ForeignKey(
+        User,
+        verbose_name="Владелец рассылки",
+        help_text="укажите Владельца рассылки",
+        blank=True,
+        null=True,
+        on_delete=models.SET_NULL,
+    )
 
     def __str__(self):
         return self.sending_status
