@@ -9,35 +9,36 @@ from django.utils import timezone
 
 
 def run_mail(request, pk):
-    """Функция запуск рассылки по требованию"""
+    """Рассылка по требованию"""
     mailing = get_object_or_404(Mail, id=pk)
-    for client in mailing.client.all():
+    for i in mailing.client.all():
         try:
             mailing.status = Mail.STATUS_LAUNCHED
+
             send_mail(
                 topic=mailing.sms.topic,
                 message=mailing.sms.content,
                 from_email=EMAIL_HOST_USER,
-                client_list=[client.email],
+                client_list=[i.email],
                 fail_silently=False,
             )
             Send.objects.create(
-                date_attempt=timezone.now(),
-                status=Send.STATUS_OK,
-                server_response="Email отправлен",
-                mailing=mailing,
+                data=timezone.now(),
+                sending_status=Send.STATUS_OK,
+                answer="Email отправлен",
+                status=mailing,
             )
 
         except Exception as e:
-            print(f"Ошибка при отправке письма для {client.email}: {str(e)}")
+            print(f"Ошибка при отправке письма для {i.email}: {str(e)}")
             Send.objects.create(
-                date_attempt=timezone.now(),
-                status=Send.STATUS_NOK,
-                server_response=str(e),
-                mailing=mailing,
+                data=timezone.now(),
+                sending_status=Send.STATUS_NOK,
+                answer=str(e),
+                status=mailing,
             )
     if mailing.end_sending and mailing.end_sending <= timezone.now():
-        # Если время рассылки закончилось, обновляем статус на "завершено"
+        # Если время рассылки закончилось, обновляем статус на "завершен"
         mailing.status = Mail.STATUS_COMPETED
     mailing.save()
     return redirect("mailing:mail_list")
@@ -58,3 +59,4 @@ def get_clients_from_cash():
     cache.set(key, clients)
 
     return clients
+
