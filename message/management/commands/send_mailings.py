@@ -41,4 +41,6 @@ class Command(BaseCommand):
                         status=mailing,
                     )
                     print(str(e))
+
+
             mailing.save()

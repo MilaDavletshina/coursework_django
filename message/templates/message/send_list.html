@@ -1,0 +1,45 @@
+{% extends 'message/base.html' %}
+
+{% block content %}
+<main class="flex-shrink-0">
+  <div class="container">
+    <h1 class="mt-5">Попытка рассылки</h1>
+    <p class="lead">Запись о каждой попытке отправки сообщения по рассылке</p>
+
+    <div class="container">
+    {% if user.is_authenticated %}
+      <li class="nav-item">
+        <a class="btn btn-dark" href="{% url 'message:send_create' %}" role="button">Создать попытку рассылку</a>
+      </li>
+    {% endif %}
+    </div>
+
+    <div class="row mb-2">
+    <div class="col-md-12">
+    {% for object in object_list %}
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Дата попытки рассылки: {{object.data |date:"d M Y P"}}</strong>
+          <strong class="d-inline-block mb-2 text-danger-emphasis">Статус попытки рассылки: {{ object.sending_status | upper }}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Ответ почтового сервера: {{ object.answer }}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Статус рассылки: {{ object.status }}</strong>
+          <strong class="d-inline-block mb-2 text-primary-emphasis">Владелец рассылки: {{ object.owner }}</strong>
+        </div>
+      </div>
+    {% endfor %}
+    </div>
+    </div>
+
+    <div class="row mb-2">
+    <div class="col-md-2">
+      <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+        <div class="col p-4 d-flex flex-column position-static">
+          <a class="btn btn-dark" href="{% url 'message:main' %}" role="button">Назад</a>
+        </div>
+      </div>
+    </div>
+    </div>
+
+  </div>
+</main>
+{% endblock %}

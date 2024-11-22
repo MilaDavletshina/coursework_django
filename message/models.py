@@ -176,7 +176,6 @@ class Send(models.Model):
             "sending_status",
         ]
 
-
 # class Log(models.Model):
 #     """Логирование попытки рассылки"""
 #     mail = models.ForeignKey(Mail, on_delete=models.CASCADE, verbose_name='Рассылка')

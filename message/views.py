@@ -4,6 +4,7 @@ from django.http import HttpResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
 
+
 from message.forms import (
     ClientForm,
     SmsForm,
@@ -22,7 +23,7 @@ from django.views.generic import (
     TemplateView,
 )
 
-from message.services import get_clients_from_cash, get_send_from_cash, send_mail
+from message.services import get_clients_from_cash, get_send_from_cash
 
 
 def base(request):
@@ -311,4 +312,3 @@ class SendCreateView(LoginRequiredMixin, CreateView):
         user = self.request.user
         send.owner = user
         send.save()
-
