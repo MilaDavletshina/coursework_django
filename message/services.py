@@ -8,7 +8,7 @@ from django.core.cache import cache
 from django.utils import timezone
 
 
-def run_mail(request, pk):
+def run_send(request, pk):
     """Рассылка по требованию"""
     mailing = get_object_or_404(Mail, id=pk)
     for i in mailing.client.all():
@@ -45,7 +45,7 @@ def run_mail(request, pk):
 
 
 def get_clients_from_cash():
-    """Получает данные из кэша, если кэш пуст, получает данные из бд"""
+    """Получает данные из кэша по получателям рассылки, если кэш пуст, получает данные из бд"""
     if not CACHE_ENABLED:
         return Client.objects.all()
 
@@ -60,3 +60,19 @@ def get_clients_from_cash():
 
     return clients
 
+
+def get_send_from_cash():
+    """Получает данные из кэша по попыткам рассылки, если кэш пуст, получает данные из бд"""
+    if not CACHE_ENABLED:
+        return Send.objects.all()
+
+    key = "send_list"
+    sends = cache.get(key)
+
+    if sends is not None:
+        return sends
+
+    sends = Send.objects.all()
+    cache.set(key, sends)
+
+    return sends
